@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" viewSourceURL="srcview/index.html">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.core.IVisualElement;
+			
+			import spark.layouts.BasicLayout;
+			import spark.layouts.HorizontalLayout;
+			import spark.layouts.TileLayout;
+
+			protected function addButton(event:MouseEvent):void
+			{
+				var button : Button = new Button();
+				button.label = String(group.numChildren + 1);
+				button.addEventListener(MouseEvent.CLICK,onButtonClick);
+				group.addElement(button);
+			}
+			
+			protected function onButtonClick(event:MouseEvent):void{
+				group.removeElement(event.currentTarget as IVisualElement);
+			}
+			
+			public function changeLayout(layoutType : String):void{
+				if(layoutType == 'Vertical'){
+					group.layout = new VerticalLayout();
+				} else if (layoutType == 'Horizontal'){
+					group.layout = new HorizontalLayout();
+				} else if (layoutType == 'Tile'){
+					group.layout = new TileLayout();
+				} else if (layoutType == 'Basic'){
+					group.layout = new BasicLayout();
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:VerticalLayout />
+	</s:layout>
+
+
+	<s:Button label="Add Button to Group" click="addButton(event)" />
+	<s:Group layout="{new HorizontalLayout()}">
+		<s:Button label="Change Layout to Vertical" click="changeLayout('Vertical')" />
+		<s:Button label="Change Layout to Horizontal" click="changeLayout('Horizontal')"/>
+		<s:Button label="Change Layout to Tile" click="changeLayout('Tile')"/>
+		<s:Button label="Change Layout to Absolute" click="changeLayout('Basic')" />
+	</s:Group>
+	<s:Group id="group" layout="{new BasicLayout()}" width="400" height="400">
+	</s:Group>
+</s:Application>
